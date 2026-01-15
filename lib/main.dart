@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
 import 'game.dart';
 
 void main() {
@@ -40,6 +39,31 @@ class Tile extends StatelessWidget {
 
 }
 
+class GamePage extends StatelessWidget {
+  GamePage({super.key});
+
+  final Game _game = Game();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        spacing: 5,
+        children: [
+          for (var guess in _game.guesses)
+            Row(
+              spacing: 5,
+              children: [
+                for (var letter in guess)
+                  Tile(letter.char, letter.type),
+              ],
+            )
+        ],
+      )
+    );
+  }
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -48,8 +72,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(
+          title: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Wordle'),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        ),
         body: Center(
-          child: Tile('A', HitType.hit),
+          child: GamePage(),
         ),
       ),
     );
